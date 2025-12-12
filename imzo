@@ -1,0 +1,22 @@
+from Crypto.PublicKey import RSA
+from Crypto.Signature import pkcs1_15
+from Crypto.Hash import SHA256
+
+# Xabarni imzolash
+message = input("Salom").encode()
+
+# Private keyni o‘qish
+with open("private.pem", "rb") as f:
+    private_key = RSA.import_key(f.read())
+
+# Xesh hosil qilish
+h = SHA256.new(message)
+
+# Imzo yaratish
+signature = pkcs1_15.new(private_key).sign(h)
+
+# Imzoni faylga saqlash
+with open("signature.sig", "wb") as f:
+    f.write(signature)
+
+print("Xabar imzolandi! signature.sig faylga saqlandi.")
